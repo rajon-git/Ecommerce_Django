@@ -56,7 +56,7 @@ const products = [
         'category': 'Electronics',
         'price': 90.99,
         'countInStock': 10,
-        'rating':4.5,
+        'rating':5,
         'numReviews': 12
     }
 ]
