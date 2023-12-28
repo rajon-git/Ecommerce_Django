@@ -1,0 +1,5 @@
+step-1: pip install virtualenv 
+step-2: virtualenv myenv 
+step-3: myenv\scripts\activate
+step-4: pip install django 
+step-5: django-admin startproject backend
