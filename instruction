@@ -19,3 +19,7 @@ stpe-1: pip install django-cors-headers
 step-2: save 'corsheaders', in setting.py insttled file
 step-3: "corsheaders.middleware.CorsMiddleware", add this in top of middleware
 step-4: (CORS_ALLOW_ALL_ORIGINS = True) add that in last 
+for databse:
+step1: python manage.py migrate
+step-2: python manage.py createsuperuser
+admin admin
