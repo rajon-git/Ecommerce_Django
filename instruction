@@ -3,3 +3,19 @@ step-2: virtualenv myenv
 step-3: myenv\scripts\activate
 step-4: pip install django 
 step-5: django-admin startproject backend
+
+create apps:
+python manage.py startapp appname
+
+Django rest framework:
+
+step-1: pip install djangorestframework
+django  setting.py save: 'rest_framework',
+For json response : i. from rest_framework.decorators import api_view
+ii. from rest_framework.response import Response
+
+for fronend cors header problem :
+stpe-1: pip install django-cors-headers
+step-2: save 'corsheaders', in setting.py insttled file
+step-3: "corsheaders.middleware.CorsMiddleware", add this in top of middleware
+step-4: (CORS_ALLOW_ALL_ORIGINS = True) add that in last 
