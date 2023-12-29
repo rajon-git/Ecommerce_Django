@@ -23,3 +23,6 @@ for databse:
 step1: python manage.py migrate   1st mmigration: python manage.py makemigrations
 step-2: python manage.py createsuperuser
 admin admin
+
+For Image:
+step-1: pip install pillow
