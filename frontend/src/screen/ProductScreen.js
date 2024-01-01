@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate  } from 'react-router-dom';
 import { Button, Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 import Rating from '../components/Rating';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import Message from '../components/Message';
 function ProductScreen() {
     const [qty,setQty] = useState(1);
     const dispatch= useDispatch();
+    const navigate = useNavigate();
     const { id } = useParams();
     const productDetails=useSelector((state)=> state.productDetails);
     const {loading,error,product} =productDetails;
@@ -17,6 +18,12 @@ function ProductScreen() {
     useEffect(()=>{
     dispatch(listProductDetails(id));
   },[dispatch,id]);
+
+    const addToCartHandler = ()=>{
+
+        navigate(`/cart/${id}?qty=${qty}`);
+
+    }
     return (
     <div>
         <Link to="/" className='btn btn-light my-3'>Go Back</Link>
@@ -92,7 +99,7 @@ function ProductScreen() {
                     )}
 
                     <ListGroup.Item>
-                        <Button className='btn-block' disabled={product.countInStock === 0} type='button'>Add to Cart</Button>
+                        <Button onClick={addToCartHandler}  className='btn-block' disabled={product.countInStock === 0} type='button'>Add to Cart</Button>
                     </ListGroup.Item>
                 </ListGroup>
             </Card>
