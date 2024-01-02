@@ -26,3 +26,15 @@ admin admin
 
 For Image:
 step-1: pip install pillow
+
+For JWT:
+pip install djangorestframework-simplejwt
+ADD IN SETTINGS.PY :
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
