@@ -47,8 +47,9 @@ def updateUserProfile(request):
     user.first_name = data['name']
     user.username = data['email']
     user.email = data['email']
-    if data['password'] != '':
+    if 'password' in data and data['password'] != '':
         user.password = make_password(data['password'])
+
     user.save()
     return Response(serializer.data)
 

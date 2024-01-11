@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import {USER_UPDATE_PROFILE_RESET} from "../constants/userConstant"
 
 function ProfileScreen() {
     const navigate = useNavigate();
@@ -21,6 +22,10 @@ function ProfileScreen() {
     const userLogin = useSelector(state => state.userLogin);
     const {userInfo} = userLogin;
 
+    const userUpdateProfile = useSelector(state => state.userUpdateProfile);
+    const {success} = userUpdateProfile;
+
+
     useEffect(()=>{
         if(!userInfo)
         {
@@ -28,8 +33,9 @@ function ProfileScreen() {
         }
         else
         {
-            if(!user || !user.name)
+            if(!user || !user.name || success)
             {
+                dispatch({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
             }
             else
@@ -38,7 +44,7 @@ function ProfileScreen() {
                 setEmail(user.email)
             }
         }
-    },[navigate, user, dispatch, userInfo]);
+    },[navigate, user, dispatch, userInfo, success]);
 
     const submitHandler=(e)=>{
         e.preventDefault();
@@ -49,7 +55,13 @@ function ProfileScreen() {
         }
         else
         {
-            console.log('updating');
+            dispatch(updateUserProfile({
+                'id': user._id,
+                'name': name,
+                'email': email,
+                'password' : password
+            }))
+            setMessage("");
         }
 
     }
