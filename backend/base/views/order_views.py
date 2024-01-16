@@ -27,5 +27,35 @@ def addOrderItems(request):
             totalPrice = data['totalPrice']
         )
 
+        #shipping address
+        shipping= ShippingAddress.objects.create(
+            order= order,
+            address = data['shippingAddress'] ['address'],
+            city = data['shippingAddress'] ['address'],
+            postalCode = data['shippingAddress'] ['postalCode'],
+            country = data['shippingAddress'] ['country'],
+
+        )
+
+        #create order items and set order to order item relationship
+
+        for i in orderItems:
+            product = Product.objects.get(_id = i['product'])
+
+            item = OrderItem.objects.create(
+                product = product,
+                order = order,
+                name = product.name,
+                qty = i['qty'],
+                price = i['price'],
+                image = product.image.url,
+
+            )
+
+            #update stock
+
+            product.countInStock -= item.qty
+            product.save()
+
     
     return Response('ORDER')
