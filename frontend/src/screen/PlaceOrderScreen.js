@@ -81,6 +81,7 @@ function PlaceOrderScreen() {
                     <ListGroup.Item>
                         <h2>Order Summary</h2>
                     </ListGroup.Item>
+                    
                     <ListGroup.Item>
                         <Row>
                             <Col>Item: </Col>
