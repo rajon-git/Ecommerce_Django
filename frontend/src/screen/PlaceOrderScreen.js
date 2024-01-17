@@ -1,12 +1,19 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import CheckoutSteps from '../components/CheckoutSteps';
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap';
 import Message from '../components/Message';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { createOrder } from '../actions/orderActions';
+import { ORDER_CREATE_RESET } from '../constants/orderConstant';
 
 function PlaceOrderScreen() {
+    const orderCreate = useSelector(state=> state.orderCreate);
     const cart = useSelector(state => state.cart);
+    const {order, error, success} = orderCreate
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    
 
     cart.itemsPrice = cart.cartItems.reduce((acc,item)=> acc + item.price * item.qty, 0).toFixed(2);
     cart.shippingPrice = (cart.itemsPrice > 2000 ? 0 : 70).toFixed(2);
@@ -14,8 +21,29 @@ function PlaceOrderScreen() {
     cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) +  Number(cart.taxPrice)).toFixed(2);
 
     const placeOrder=()=>{
-        console.log("place order")
+        dispatch(createOrder({
+            orderItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethod: cart.paymentMethod,
+            itemsPrice: cart.itemsPrice,
+            shippingPrice: cart.shippingPrice,
+            taxPrice: cart.taxPrice,
+            totalPrice: cart.totalPrice
+        }))
     }
+
+    if(!cart.paymentMethod)
+    {
+        navigate("/payment");
+    }
+
+    useEffect(()=>{
+        if(success)
+        {
+            navigate(`/order/${order._id}`);
+            dispatch({type: ORDER_CREATE_RESET})
+        }
+    },[success, navigate])
   return (
     <div>
       <CheckoutSteps step1 step2 step3 step4/>
@@ -108,6 +136,10 @@ function PlaceOrderScreen() {
                             <Col>Total: </Col>
                             <Col>${cart.totalPrice} </Col>
                         </Row>
+                    </ListGroup.Item>
+
+                    <ListGroup.Item>
+                        {error && <Message variant='danger'>{error}</Message>}
                     </ListGroup.Item>
 
                     <ListGroup.Item>

@@ -8,7 +8,7 @@ from base.serializers import ProductSerializer, OrderSerializer
 from rest_framework import status
 
 @api_view(['POST'])
-@permission_classes(['IsAuthenticated'])
+@permission_classes([IsAuthenticated])
 def addOrderItems(request):
     user = request.user
     data = request.data
@@ -30,10 +30,10 @@ def addOrderItems(request):
         #shipping address
         shipping= ShippingAddress.objects.create(
             order= order,
-            address = data['shippingAddress'] ['address'],
-            city = data['shippingAddress'] ['city'],
-            postalCode = data['shippingAddress'] ['postalCode'],
-            country = data['shippingAddress'] ['country'],
+            address = data['shippingAddress']['address'],
+            city = data['shippingAddress']['city'],
+            postalCode = data['shippingAddress']['postalCode'],
+            country = data['shippingAddress']['country'],
 
         )
 
@@ -57,5 +57,5 @@ def addOrderItems(request):
             product.countInStock -= item.qty
             product.save()
 
-    serializer = OrderSerializer(order, many = True)
-    return Response(serializer.data)
+        serializer = OrderSerializer(order, many = False)
+        return Response(serializer.data)

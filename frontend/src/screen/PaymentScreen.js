@@ -12,7 +12,7 @@ function PaymentScreen() {
     const dispatch= useDispatch();
     const navigate = useNavigate();
 
-    const [paymentMethod, setPaymentMethod] = useState('PayPal');
+    const [paymentMethod, setPaymentMethod] = useState('Paypal');
 
     const submitHandler = (e)=>{
         e.preventDefault();
